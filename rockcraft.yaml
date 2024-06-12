@@ -69,8 +69,4 @@ parts:
     override-prime: |
       craftctl default
       ROCK_USER_UID=584792
-
-      chown ${ROCK_USER_UID}:${ROCK_USER_UID} opt/karapace/bin/start-wrapper.bash
-      chmod +x opt/karapace/bin/start-wrapper.bash
-
       chown -R ${ROCK_USER_UID}:${ROCK_USER_UID} etc/karapace/
