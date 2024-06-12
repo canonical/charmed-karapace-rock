@@ -11,7 +11,7 @@ description: |
 license: Apache-2.0
 version: '3.12.0'
 base: ubuntu@22.04
-platforms: # The platforms this rock should be built on and run on
+platforms:
   amd64:
 
 run_user: _daemon_
@@ -31,31 +31,9 @@ parts:
     source-tag: 3.12.0
     python-requirements:
         - ./requirements/requirements.txt
-    # stage-snaps:
-    #   - charmed-karapace/latest/edge
     stage-packages:
       - python3.10-venv
       - util-linux
-
-    # override-prime: |
-    #   rm $CRAFT_PART_INSTALL/bin/python
-    #   rm $CRAFT_PART_INSTALL/bin/python3
-    #   rm $CRAFT_PART_INSTALL/bin/python3.10
-    #   rm $CRAFT_PART_INSTALL/bin/pip
-    #   rm $CRAFT_PART_INSTALL/bin/pip3
-    #   rm $CRAFT_PART_INSTALL/bin/pip3.10
-    #   craftctl default
-
-  # dependencies:
-  #   plugin: nil
-  #   after: [karapace-snap]
-  #   stage-packages:
-  #     - python3
-  #     - python3-pip
-  #   override-prime:
-  #     pip install aiokafka==0.8.1
-
-  #     craftctl default
   entry:
     plugin: dump
     after: [karapace]

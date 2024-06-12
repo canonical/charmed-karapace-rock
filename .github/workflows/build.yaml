@@ -1,0 +1,57 @@
+name: Build ROCK
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+  workflow_call:
+    outputs:
+      rock:
+        description: "The rock output of build process."
+        value: ${{ jobs.build.outputs.rock }}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install tox
+        run: python3 -m pip install tox
+      - name: YAML Lint
+        run: tox -e lint
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs:
+      - lint
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup LXD
+        uses: canonical/setup-lxd@main
+      - name: Install dependencies
+        id: install
+        run: |
+          sudo snap install yq
+          sudo snap install rockcraft --classic --edge
+      - name: Build ROCK
+        id: build
+        run: |
+          VERSION=$(yq '.version' rockcraft.yaml)
+
+          rockcraft pack --verbose
+
+          echo "rock=charmed-karapace_${VERSION}_amd64.rock" >> $GITHUB_OUTPUT
+
+      - name: Upload locally built ROCK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: charmed-karapace
+          path: ${{ steps.build.outputs.rock }}
+    outputs:
+      rock: ${{ steps.build.outputs.rock }}
