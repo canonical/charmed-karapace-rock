@@ -1,0 +1,50 @@
+name: charmed-karapace
+summary: Charmed Karapace ROCK
+description: |
+  This is an OCI image that bundles Karapace binaries together with other
+  tools of its ecosystem in order to be used in Charmed Operators, providing
+  an automated and seamless experience to deploy, operate, manage and monitor
+  Karapace on K8s cluster.
+  It is an open source, end-to-end, production ready data platform on top of
+  cloud native technologies.
+
+license: Apache-2.0
+version: '3.12.0'
+base: ubuntu@22.04
+platforms:
+  amd64:
+
+run_user: _daemon_
+
+services:
+  karapace:
+    command: karapace /etc/karapace/karapace.config.json
+    summary: "This is the service to startup Karapace processes"
+    override: replace
+    startup: enabled
+
+
+parts:
+  karapace:
+    plugin: python
+    source: https://github.com/Aiven-Open/karapace.git
+    source-tag: 3.12.0
+    python-requirements:
+        - ./requirements/requirements.txt
+    stage-packages:
+      - python3.10-venv
+      - util-linux
+  entry:
+    plugin: dump
+    after: [karapace]
+    source: files
+    organize:
+      authfile.json: etc/karapace/authfile.json
+      karapace.config.json: etc/karapace/karapace.config.json
+    stage:
+      - etc/karapace/authfile.json
+      - etc/karapace/karapace.config.json
+    override-prime: |
+      craftctl default
+      ROCK_USER_UID=584792
+      chown -R ${ROCK_USER_UID}:${ROCK_USER_UID} etc/karapace/
