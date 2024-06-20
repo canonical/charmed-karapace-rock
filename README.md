@@ -1,4 +1,3 @@
-
 # Charmed Karapace ROCK
 
 [![Container Registry](https://img.shields.io/badge/Container%20Registry-published-blue)](https://github.com/canonical/charmed-karapace-rock/pkgs/container/charmed-karapace)
