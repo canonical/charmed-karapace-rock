@@ -2,7 +2,7 @@ name: Publish ROCK
 on:
   push:
     branches:
-      - main
+      - 3-22.04
 
 jobs:
 
