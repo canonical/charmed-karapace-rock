@@ -58,10 +58,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install skopeo
-        run: |
-          sudo snap install --devmode --channel edge skopeo
-
       - name: Install yq
         run: |
           sudo snap install yq
@@ -84,11 +80,11 @@ jobs:
           TRACK=${{ needs.release_checks.outputs.track }}
           if [ ! -z "$RISK" ] && [ "${RISK}" != "no-risk" ]; then TAG=${TRACK}_${RISK}; else TAG=${TRACK}; fi
       
-          IMAGE_NAME="ghcr.io/canonical/charmed-karapace"
+          IMAGE_NAME="ghcr.io/deusebio/charmed-karapace"
 
           ROCK_FILE=${{ needs.build.outputs.rock }}
 
-          sudo skopeo --insecure-policy copy \
+          sudo rockcraft.skopeo --insecure-policy copy \
             oci-archive:${ROCK_FILE} \
             docker-daemon:${IMAGE_NAME}:${TAG}
 
