@@ -81,7 +81,7 @@ jobs:
           TRACK=${{ needs.release_checks.outputs.track }}
           if [ ! -z "$RISK" ] && [ "${RISK}" != "no-risk" ]; then TAG=${TRACK}_${RISK}; else TAG=${TRACK}; fi
       
-          IMAGE_NAME="ghcr.io/deusebio/charmed-karapace"
+          IMAGE_NAME="ghcr.io/canonical/charmed-karapace"
 
           ROCK_FILE=${{ needs.build.outputs.rock }}
 
