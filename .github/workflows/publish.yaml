@@ -63,7 +63,7 @@ jobs:
           sudo snap install yq
           sudo snap install rockcraft --classic --edge    
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: charmed-karapace
 
