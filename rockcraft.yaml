@@ -35,8 +35,13 @@ parts:
       sed -i 's/"confluent-kafka == 2\.4\.0",/  "confluent-kafka == 2.11.0",/' pyproject.toml
     python-requirements:
       - ./requirements/requirements.txt
+    build-snaps:
+        - go
     python-packages:
-      - sentry_sdk
+        - wheel
+        - pip
+        - sentry_sdk
+        - setuptools-golang
     stage-packages:
       - python3.12-venv
       - util-linux
