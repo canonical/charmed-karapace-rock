@@ -9,8 +9,8 @@ description: |
   cloud native technologies.
 
 license: Apache-2.0
-version: '3.12.0'
-base: ubuntu@22.04
+version: '5.0.0'
+base: ubuntu@24.04
 platforms:
   amd64:
 
@@ -28,7 +28,11 @@ parts:
   karapace:
     plugin: python
     source: https://github.com/Aiven-Open/karapace.git
-    source-tag: 3.12.0
+    source-tag: 5.0.0
+    override-pull: |
+      craftctl default
+      # bump confluent-kafka version
+      sed -i 's/"confluent-kafka == 2\.4\.0",/  "confluent-kafka == 2.11.0",/' pyproject.toml
     python-requirements:
       - ./requirements/requirements.txt
     python-packages:
