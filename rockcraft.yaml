@@ -38,7 +38,7 @@ parts:
     python-packages:
       - sentry_sdk
     stage-packages:
-      - python3.10-venv
+      - python3.12-venv
       - util-linux
   entry:
     plugin: dump
