@@ -43,8 +43,8 @@ parts:
         - sentry_sdk
         - setuptools-golang
     stage-packages:
-      - python3.12-venv
       - util-linux
+      - python3-venv
   entry:
     plugin: dump
     after: [karapace]
