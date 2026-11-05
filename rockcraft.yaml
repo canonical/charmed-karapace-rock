@@ -13,6 +13,7 @@ version: '5.0.0'
 base: ubuntu@24.04
 platforms:
   amd64:
+  arm64:
 
 run_user: _daemon_
 
